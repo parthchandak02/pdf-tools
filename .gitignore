@@ -39,9 +39,8 @@ output/*
 static/thumbnails/*
 !static/thumbnails/.gitkeep
 
+# History
 .history
-input/*
-output/*
 
 # OS specific
 .DS_Store

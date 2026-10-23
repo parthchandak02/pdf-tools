@@ -1,96 +1,107 @@
-# PDF Tools
+<div align="center">
 
-A modern web application for splitting and managing PDF files with an intuitive user interface.
+<h1>PDF Tools</h1>
 
-![PDF Tools Screenshot](docs/screenshot.png)
+<p><b>Split one PDF into several, by picking pages.</b></p>
 
-## Features
+<p><i>Pulling three chapters out of a long scan usually means a paid editor or a page-range dialog you can't see. This shows every page and lets you click.</i></p>
 
-- 📄 Load and display PDF files with page thumbnails
-- ✂️ Create multiple PDF groups from selected pages
-- 🎯 Intuitive page selection interface
-- 📦 Download generated PDFs instantly
-- 🚀 Fast and responsive UI
-- 💻 Modern design with Tailwind CSS
+<h6>
 
-## Prerequisites
+![Python 3.8+](https://img.shields.io/badge/Python-3.8%2B-111111?style=flat-square&logo=python&logoColor=white)
+![FastAPI](https://img.shields.io/badge/FastAPI-0.104-3B82F6?style=flat-square&logo=fastapi&logoColor=white)
+![Runs locally](https://img.shields.io/badge/runs-locally-3B82F6?style=flat-square)
+![Status](https://img.shields.io/badge/status-small%20tool-555555?style=flat-square)
+![License](https://img.shields.io/badge/license-MIT-555555?style=flat-square)
 
-- Python 3.8+
-- Poppler (required for PDF to image conversion)
-  - macOS: `brew install poppler`
-  - Ubuntu: `sudo apt-get install poppler-utils`
-  - Windows: [Download Poppler](http://blog.alivate.com.au/poppler-windows/)
+</h6>
 
-## Installation
+<a href="#how-it-works"><b>How it works</b></a> ·
+<a href="#run-it"><b>Run it</b></a> ·
+<a href="#limits"><b>Limits</b></a>
 
-1. Clone the repository:
+<br><br>
+
+<img src="docs/assets/readme/hero.png" width="720" alt="The PDF Splitter page with a 12-page document loaded: three named groups (floor-plans already built with a Download button, budget and appendix waiting), and thumbnails of the pages not yet assigned, two of them ticked">
+
+<sub>A made-up 12-page PDF, split into three groups. Captured from a local run.</sub>
+
+</div>
+
+<br>
+
+## How it works
+
+<table>
+<tr>
+<td width="33%" valign="top">
+
+**1 · Drop in a PDF**
+
+Put a PDF in `input/` and start the server. Every page is rendered to a thumbnail with
+Poppler (`pdf2image`).
+
+</td>
+<td width="33%" valign="top">
+
+**2 · Group pages**
+
+Tick pages, press *Create New Group*, and name it. Grouped pages leave the grid, so each page
+ends up in exactly one group.
+
+</td>
+<td width="33%" valign="top">
+
+**3 · Build and download**
+
+*Create PDF* writes that group's pages, in order, to `output/<name>.pdf` with PyPDF2, then the
+button turns into *Download PDF*.
+
+</td>
+</tr>
+</table>
+
+Everything runs on your machine: a FastAPI server with three endpoints (`/pdf/info`,
+`/pdf/split`, `/thumbnails/{page}`) and one HTML page styled with Tailwind. Nothing is uploaded
+anywhere.
+
+## Run it
+
+Needs Python 3.8+ and Poppler (`brew install poppler` on macOS, `sudo apt-get install
+poppler-utils` on Ubuntu).
+
 ```bash
 git clone https://github.com/parthchandak02/pdf-tools.git
 cd pdf-tools
-```
-
-2. Create and activate a virtual environment:
-```bash
-python -m venv venv
-source venv/bin/activate  # On Windows: venv\Scripts\activate
-```
-
-3. Install dependencies:
-```bash
+python -m venv venv && source venv/bin/activate
 pip install -r requirements.txt
+cp ~/Downloads/some-file.pdf input/
+uvicorn main:app --reload        # then open http://localhost:8000
 ```
 
-## Usage
+## Limits
 
-1. Place your PDF file in the `input` directory
+- **One PDF at a time.** The server uses the first `.pdf` it finds in `input/`.
+- **Up to 100 pages.** Larger files are refused.
+- **Thumbnails are cached.** They are only generated when `static/thumbnails/` is empty; clear
+  that folder when you swap in a different PDF, or you will see the old pages.
+- **A single-day project** from December 2024, built for one job and not developed since.
 
-2. Start the server:
-```bash
-uvicorn main:app --reload
-```
-
-3. Open your browser and navigate to `http://localhost:8000`
-
-4. Use the interface to:
-   - View PDF pages as thumbnails
-   - Select pages by clicking checkboxes
-   - Create groups of selected pages
-   - Generate new PDFs from groups
-   - Download the generated PDFs
-
-## Project Structure
+<details>
+<summary><b>Project layout</b></summary>
 
 ```
-pdf-tools/
-├── input/              # Place input PDFs here
-├── output/             # Generated PDFs appear here
-├── static/
-│   └── thumbnails/     # Generated page thumbnails
-├── templates/
-│   └── index.html      # Main web interface
-├── main.py            # FastAPI application
-├── requirements.txt   # Python dependencies
-└── README.md         # This file
+main.py               FastAPI app: page count, thumbnail rendering, splitting
+templates/index.html  The whole UI: thumbnail grid, page groups, create and download
+input/                Put the source PDF here
+output/               Built PDFs land here (served at /output)
+static/thumbnails/    Rendered page images, created on first load
 ```
 
-## Development
+</details>
 
-The application is built with:
-- FastAPI for the backend
-- Tailwind CSS for styling
-- PDF2Image for thumbnail generation
-- PyPDF2 for PDF manipulation
+<br>
 
-To contribute:
-1. Fork the repository
-2. Create a feature branch
-3. Make your changes
-4. Submit a pull request
-
-## License
-
-MIT License - see [LICENSE](LICENSE) for details
-
-## Author
-
-Parth Chandak - [GitHub](https://github.com/parthchandak02)
+<div align="center">
+<sub>Built with FastAPI, pdf2image, PyPDF2 and Tailwind CSS.</sub>
+</div>

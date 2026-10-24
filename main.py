@@ -81,7 +81,7 @@ def ensure_thumbnails(pdf_path: str, page_count: int) -> None:
 
 @app.get("/", response_class=HTMLResponse)
 async def read_root(request: Request):
-    return templates.TemplateResponse("index.html", {"request": request})
+    return templates.TemplateResponse(request, "index.html")
 
 @app.get("/pdf/info")
 async def get_pdf_info():

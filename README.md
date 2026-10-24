@@ -83,8 +83,10 @@ uvicorn main:app --reload        # then open http://localhost:8000
 
 - **One PDF at a time.** The server uses the first `.pdf` it finds in `input/`.
 - **Up to 100 pages.** Larger files are refused.
-- **Thumbnails are cached.** They are only generated when `static/thumbnails/` is empty; clear
-  that folder when you swap in a different PDF, or you will see the old pages.
+- **Thumbnails are cached per file.** They are re-rendered whenever the PDF in `input/` is
+  replaced or edited (name, size or modification time changes).
+- **Output names are sanitised.** Group names become plain file names inside `output/`; any
+  folder part such as `../` is dropped.
 - **A single-day project** from December 2024, built for one job and not developed since.
 
 <details>

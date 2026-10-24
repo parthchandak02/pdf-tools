@@ -5,7 +5,7 @@ from fastapi.templating import Jinja2Templates
 from pdf2image import convert_from_path
 import os
 import re
-from PyPDF2 import PdfReader, PdfWriter
+from pypdf import PdfReader, PdfWriter
 from typing import List
 import shutil
 from pydantic import BaseModel

@@ -8,7 +8,7 @@
 
 <h6>
 
-![Python 3.8+](https://img.shields.io/badge/Python-3.8%2B-111111?style=flat-square&logo=python&logoColor=white)
+![Python 3.9+](https://img.shields.io/badge/Python-3.9%2B-111111?style=flat-square&logo=python&logoColor=white)
 ![FastAPI](https://img.shields.io/badge/FastAPI-0.104-3B82F6?style=flat-square&logo=fastapi&logoColor=white)
 ![Runs locally](https://img.shields.io/badge/runs-locally-3B82F6?style=flat-square)
 ![Status](https://img.shields.io/badge/status-small%20tool-555555?style=flat-square)
@@ -54,7 +54,7 @@ ends up in exactly one group.
 
 **3 · Build and download**
 
-*Create PDF* writes that group's pages, in order, to `output/<name>.pdf` with PyPDF2, then the
+*Create PDF* writes that group's pages, in order, to `output/<name>.pdf` with pypdf, then the
 button turns into *Download PDF*.
 
 </td>
@@ -67,7 +67,7 @@ anywhere.
 
 ## Run it
 
-Needs Python 3.8+ and Poppler (`brew install poppler` on macOS, `sudo apt-get install
+Needs Python 3.9+ and Poppler (`brew install poppler` on macOS, `sudo apt-get install
 poppler-utils` on Ubuntu).
 
 ```bash
@@ -105,5 +105,5 @@ static/thumbnails/    Rendered page images, created on first load
 <br>
 
 <div align="center">
-<sub>Built with FastAPI, pdf2image, PyPDF2 and Tailwind CSS.</sub>
+<sub>Built with FastAPI, pdf2image, pypdf and Tailwind CSS.</sub>
 </div>
